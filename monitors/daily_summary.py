@@ -31,7 +31,8 @@ DB_CONFIG = {
     'database': config['database']['database'],
     'user': config['database']['user'],
     'password': config['database']['password'],
-    'ssl_disabled': True
+    'ssl_verify_cert': False,
+    'ssl_verify_identity': False
 }
 
 # Google Chat webhook

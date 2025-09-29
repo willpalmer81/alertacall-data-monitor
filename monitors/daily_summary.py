@@ -30,7 +30,8 @@ DB_CONFIG = {
     'host': config['database']['host'],
     'database': config['database']['database'],
     'user': config['database']['user'],
-    'password': config['database']['password']
+    'password': config['database']['password'],
+    'ssl_disabled': True
 }
 
 # Google Chat webhook

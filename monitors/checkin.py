@@ -35,7 +35,7 @@ DB_CONFIG = {
 }
 
 # Google Chat webhook
-GOOGLE_CHAT_WEBHOOK = config['alerts']['google_chat']['webhook_url']
+GOOGLE_CHAT_WEBHOOK = config['google_chat']['webhook_url']
 
 # Logging setup
 LOG_DIR = '/opt/alertacall-data-monitor/logs'

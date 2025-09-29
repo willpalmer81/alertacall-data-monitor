@@ -1,0 +1,72 @@
+# Example configuration file for Alertacall Data Monitor
+# Copy to monitoring_config.yaml and update with your values
+
+database:
+  host: localhost
+  database: contact_centre_analytics
+  user: etl_user
+  password: ${MYSQL_PASSWORD}  # Use environment variable
+
+google_chat:
+  # Get webhook URL from: Chat Space > Apps & integrations > Webhooks
+  webhook_url: "https://chat.googleapis.com/v1/spaces/XXX/messages?key=XXX&token=XXX"
+  enabled: true
+  # Optional: different webhooks for different severity levels
+  critical_webhook: ""  # Optional separate critical alerts channel
+
+email:
+  smtp_server: smtp.gmail.com
+  smtp_port: 587
+  sender: willpalmer@alertacall.com
+  password: ${EMAIL_PASSWORD}  # Use environment variable
+  recipients:
+    - willpalmer@alertacall.com
+  # Optional CC for critical alerts
+  critical_cc: []
+
+monitoring:
+  csv_directory: /home/will/daily_reports
+  log_directory: /var/log/pipeline_monitor
+  dashboard_port: 5000
+  dashboard_host: 0.0.0.0
+
+check_in_times:
+  morning:
+    time: "07:30"
+    name: "Morning CC Data Check"
+    checks:
+      - etl_overnight
+      - data_freshness
+      - operator_count
+  first_shift:
+    time: "11:45"
+    name: "First Shift Check"
+    checks:
+      - csv_morning
+      - productivity_upload
+      - call_volume
+  second_shift:
+    time: "15:45"
+    name: "Second Shift Check"
+    checks:
+      - csv_afternoon
+      - productivity_upload
+      - inbound_sheet
+
+thresholds:
+  # Data staleness thresholds (in hours)
+  data_stale_critical: 24
+  data_stale_warning: 12
+
+  # Record count thresholds
+  min_daily_calls: 1000
+  min_daily_first_calls: 500
+  expected_operators: 237
+  operator_warning_threshold: 200
+
+  # CSV file timing (minutes after expected)
+  csv_grace_period_minutes: 30
+
+  # Volume drop alerts (percentage)
+  volume_drop_warning: 20  # Warn if 20% below average
+  volume_drop_critical: 50  # Critical if 50% below average
